@@ -79,6 +79,9 @@ var _pending_endpoints := {}
 
 
 func _ready() -> void:
+	# Browsers do not expose the low-level UDP sockets used by the native online mode.
+	if OS.has_feature("web"):
+		return
 	# The host's RSA key takes a second or more of CPU: make it in the background at boot,
 	# so hosting never waits for it.
 	NetPeer.prepare_host_key()
@@ -87,7 +90,8 @@ func _ready() -> void:
 func _exit_tree() -> void:
 	if peer:
 		peer.close()
-	NetPeer.shutdown_host_key() # quitting with the key task never waited for crashes
+	if not OS.has_feature("web"):
+		NetPeer.shutdown_host_key() # quitting with the key task never waited for crashes
 
 
 func _physics_process(_delta: float) -> void:
