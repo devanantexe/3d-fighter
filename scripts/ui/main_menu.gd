@@ -51,13 +51,14 @@ func _ready() -> void:
 	demo_button.text = "Demo"
 	training_button.add_sibling(demo_button)
 	demo_button.pressed.connect(func() -> void: GameState.start_demo(get_tree()))
-	# Online sits under Versus; built from it so it shares the menu's look.
-	var online_button := versus_button.duplicate(0) as Button # 0: without Versus's signal connections
-	online_button.name = "OnlineButton"
-	online_button.unique_name_in_owner = false
-	online_button.text = "Online"
-	versus_button.add_sibling(online_button)
-	online_button.pressed.connect(func() -> void: get_tree().change_scene_to_file(ONLINE_SCENE))
+	# Native online play uses UDP sockets, which browsers do not provide.
+	if not OS.has_feature("web"):
+		var online_button := versus_button.duplicate(0) as Button # 0: without Versus's signal connections
+		online_button.name = "OnlineButton"
+		online_button.unique_name_in_owner = false
+		online_button.text = "Online"
+		versus_button.add_sibling(online_button)
+		online_button.pressed.connect(func() -> void: get_tree().change_scene_to_file(ONLINE_SCENE))
 	if Net.peer:
 		Net.leave() # back at the main menu: any online session is over
 	if Net.lobby:
