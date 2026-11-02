@@ -29,6 +29,7 @@ Audio="*res://scripts/autoload/audio.gd"
 InputSetup="*res://scripts/autoload/input_setup.gd"
 Settings="*res://scripts/autoload/settings.gd"
 Net="*res://scripts/autoload/net.gd"
+WebTouchControls="*res://scripts/ui/web_touch_controls.gd"
 
 [display]
 
@@ -99,6 +100,8 @@ common/max_physics_steps_per_frame=8
 3d/physics_engine="Jolt Physics"
 
 [rendering]
+
+renderer/rendering_method.web="gl_compatibility"
 
 environment/defaults/default_clear_color=Color(0.03, 0.03, 0.05, 1)
 
