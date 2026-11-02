@@ -14,6 +14,16 @@ if ! command -v git-lfs >/dev/null 2>&1; then
 fi
 git lfs install --local
 git lfs pull
+git lfs checkout
+git lfs fsck
+
+# Confirm that Git LFS hydrated this voice clip as real Ogg data, not a pointer.
+VOICE_CLIP="assets/audio/voice/fighters/valka_special_1.ogg"
+if [[ "$(head -c 4 "$VOICE_CLIP")" != "OggS" ]]; then
+  echo "Git LFS did not hydrate $VOICE_CLIP as an Ogg file." >&2
+  exit 1
+fi
+echo "Verified original voice clip: $(stat -c '%s bytes' "$VOICE_CLIP")"
 
 ENGINE_ZIP="$CACHE_DIR/godot.zip"
 TEMPLATES_TPZ="$CACHE_DIR/templates.tpz"
