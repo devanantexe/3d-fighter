@@ -33,6 +33,7 @@ WebTouchControls="*res://scripts/ui/web_touch_controls.gd"
 
 [display]
 
+window/handheld/orientation=0
 window/size/viewport_width=1920
 window/size/viewport_height=1080
 window/size/window_width_override=1280
