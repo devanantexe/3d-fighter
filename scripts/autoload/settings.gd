@@ -51,6 +51,9 @@ var client_id := ""
 
 func _ready() -> void:
 	load_settings()
+	# Web builds default to the low-cost preset; desktop/native settings are untouched.
+	if OS.has_feature("web"):
+		graphics = Graphics.LOW
 	apply()
 	get_tree().root.size_changed.connect(func() -> void: apply_graphics(get_tree().root)) # the scale follows the window
 
@@ -181,7 +184,10 @@ func apply_graphics(viewport: Viewport) -> void:
 	viewport.screen_space_aa = Viewport.SCREEN_SPACE_AA_FXAA if graphics == Graphics.LOW else Viewport.SCREEN_SPACE_AA_DISABLED
 	viewport.scaling_3d_mode = Viewport.SCALING_3D_MODE_BILINEAR
 	var pixels: Vector2i = (viewport as Window).size if viewport is Window else (viewport as SubViewport).size # real pixels, not the stretched design size
-	viewport.scaling_3d_scale = render_scale(pixels.y)
+	var scale := render_scale(pixels.y)
+	if OS.has_feature("web"):
+		scale = minf(scale, 0.60)
+	viewport.scaling_3d_scale = scale
 
 
 ## The preset's stage side, called by every Stage when it enters the tree. The
