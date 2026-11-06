@@ -50,6 +50,7 @@ func _add_joystick() -> void:
 	var stick := Panel.new()
 	stick.name = "MovementJoystick"
 	stick.custom_minimum_size = Vector2(164, 164)
+	stick.size = Vector2(164, 164)
 	stick.mouse_filter = Control.MOUSE_FILTER_STOP
 	stick.anchor_left = 0.0
 	stick.anchor_right = 0.0
